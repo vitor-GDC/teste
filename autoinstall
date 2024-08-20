@@ -1,0 +1,35 @@
+# autoinstall.yaml - Ubuntu 24.04 LTS
+version: 1
+identity:
+  hostname: ubuntu-server
+  username: _autoinstall
+  password: _ask  # Solicitar senha durante a instalação
+locale: pt_BR
+keyboard:
+  layout: 'pt'
+network:
+  network:
+    version: 2
+    ethernets:
+      ens3:
+        dhcp4: true  # Configuração automática de rede
+storage:
+  layout:
+    name: manual  # Particionamento manual
+  config: []  # A ser definido manualmente
+packages:
+  - google-chrome-stable
+  - code
+  - vlc
+  - anydesk
+  - wireguard
+  - libreoffice
+  - dbeaver-ce=22.3.4
+late-commands:
+  - sed -i '/^jdk.tls.disabledAlgorithms=/ s/TLSv1, TLSv1.1,//' /etc/java-11-openjdk/security/java.security  # Remover TLSv1 e TLSv1.1 apenas da linha jdk.tls.disabledAlgorithms
+autoinstall:
+  version: 1
+  interactive-sections:
+    - storage  # Solicitar escolha de partição
+    - identity  # Solicitar nome de usuário e senha
+update: true  # Atualizações automáticas habilitadas
